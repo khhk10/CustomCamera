@@ -3,7 +3,11 @@ import AVFoundation
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
+    // カメラビュー
     @IBOutlet weak var cameraView: UIView!
+    
+    // 保存された写真
+    var capturedImage: UIImage?
     
     // セッション
     // （キャプチャデバイスへのアクセスと、入力から出力へのデータの流れを管理する）
@@ -68,6 +72,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         print("add input and output")
     }
     
+    // プレビュー設定
     func setPreview() {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.frame = cameraView.bounds
@@ -110,13 +115,35 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("UIImageの生成失敗")
             return
         }
+        
+        capturedImage = image
+        
         // アルバムに保存
         UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
+        
+        // 編集画面へ遷移
+        goToEditpage()
     }
     
     // 写真のキャプチャが終了した時に呼ばれる
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
         
+    }
+    
+    // 編集画面へ遷移
+    func goToEditpage() {
+        // 識別子を指定してインスタンス生成
+        guard let editViewController = self.storyboard?.instantiateViewController(withIdentifier: "editPage") as? EditViewController else {
+            return
+        }
+        
+        // 撮影された画像
+        editViewController.image = capturedImage
+        // トランジションのスタイル
+        editViewController.modalTransitionStyle = .crossDissolve
+        
+        // プレビュー画像を設定
+        present(editViewController, animated: true, completion: nil)
     }
 }
 

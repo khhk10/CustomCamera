@@ -55,30 +55,32 @@
             </objects>
             <point key="canvasLocation" x="61.600000000000001" y="26.53673163418291"/>
         </scene>
-        <!--View Controller-->
+        <!--Edit View Controller-->
         <scene sceneID="8NV-jR-jw1">
             <objects>
-                <viewController id="E6I-Cl-gra" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="editPage" id="E6I-Cl-gra" customClass="EditViewController" customModule="CustomCamera" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MSx-S5-NLm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsu-3g-uNR">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo4" translatesAutoresizingMaskIntoConstraints="NO" id="hoD-ta-Ywu">
                                 <rect key="frame" x="0.0" y="94" width="414" height="450"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="450" id="Jc9-iD-tb6"/>
+                                    <constraint firstAttribute="height" constant="450" id="dij-Je-Vl5"/>
                                 </constraints>
-                            </view>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="nsu-3g-uNR" firstAttribute="leading" secondItem="PO9-Gn-CGS" secondAttribute="leading" id="57o-LO-6VK"/>
-                            <constraint firstItem="nsu-3g-uNR" firstAttribute="top" secondItem="PO9-Gn-CGS" secondAttribute="top" constant="50" id="Pwd-ru-ufj"/>
-                            <constraint firstItem="nsu-3g-uNR" firstAttribute="trailing" secondItem="PO9-Gn-CGS" secondAttribute="trailing" id="bfe-qN-j4m"/>
+                            <constraint firstAttribute="trailing" secondItem="hoD-ta-Ywu" secondAttribute="trailing" id="B6y-g9-xaA"/>
+                            <constraint firstItem="hoD-ta-Ywu" firstAttribute="leading" secondItem="PO9-Gn-CGS" secondAttribute="leading" id="Ncx-kK-381"/>
+                            <constraint firstItem="hoD-ta-Ywu" firstAttribute="top" secondItem="PO9-Gn-CGS" secondAttribute="top" constant="50" id="Zkc-hs-fsK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PO9-Gn-CGS"/>
                     </view>
+                    <connections>
+                        <outlet property="editView" destination="hoD-ta-Ywu" id="cDb-AR-d06"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vZW-ZJ-STf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -87,5 +89,6 @@
     </scenes>
     <resources>
         <image name="circle" width="400" height="400"/>
+        <image name="photo4" width="700" height="467"/>
     </resources>
 </document>
