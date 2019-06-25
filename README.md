@@ -1,5 +1,5 @@
 # CustomCamera
-Customized camera using AVFoundation
+Customized camera using AVFoundation and CIFilter
 
 <img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_camera.jpg" width="230"><img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_edit.jpg" width="230">
 
