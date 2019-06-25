@@ -1,4 +1,13 @@
 # CustomCamera
 Customized camera using AVFoundation
 
-- capture still image
+<img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_edit.jpg" width="250">
+
+- AVCapturePhotoOutput
+- image processing
+  - Clamp
+  - Bloom
+  - Gaussian
+  - Crystalize
+
+
