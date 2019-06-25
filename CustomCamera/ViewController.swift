@@ -24,6 +24,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // セッション実行中
+        if session.isRunning {
+            return
+        }
+        
         // セッションの設定
         configure()
         
@@ -119,7 +124,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         capturedImage = image
         
         // アルバムに保存
-        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
+        // UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
         
         // 編集画面へ遷移
         goToEditpage()
