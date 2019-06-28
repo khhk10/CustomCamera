@@ -215,7 +215,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         }
         // UIImage生成
         let uiCrystal = UIImage(cgImage: cgCrystal, scale: 0, orientation: orientaion!)
-
+        
         return uiCrystal
     }
     

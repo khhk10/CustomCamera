@@ -36,8 +36,16 @@
                                     <constraint firstAttribute="height" constant="450" id="UyT-3k-yNc"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ktG-dx-SuS">
+                                <rect key="frame" x="20" y="565" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="change_white"/>
+                                <connections>
+                                    <action selector="changeFrontBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hMM-gA-QIg"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="TRd-11-SnB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MGW-aw-lFS"/>
                             <constraint firstItem="TRd-11-SnB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="aSa-RA-eBR"/>
@@ -53,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="61.600000000000001" y="26.53673163418291"/>
+            <point key="canvasLocation" x="60.869565217391312" y="26.116071428571427"/>
         </scene>
         <!--Edit-->
         <scene sceneID="8NV-jR-jw1">
@@ -128,6 +136,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="change_white" width="128" height="128"/>
         <image name="circle" width="400" height="400"/>
     </resources>
 </document>

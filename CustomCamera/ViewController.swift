@@ -9,9 +9,15 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     // 保存された写真
     var capturedImage: UIImage?
     
+    // front or back camera
+    var isFrontCamera = false
+    
     // セッション
     // （キャプチャデバイスへのアクセスと、入力から出力へのデータの流れを管理する）
     var session = AVCaptureSession()
+    
+    // 入力
+    var deviceInput: AVCaptureDeviceInput?
     
     // 出力（入力から提供されたデータを使用し、画像ファイルなどのメディアを作成する）
     // capturing photo用の出力
@@ -52,13 +58,13 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         // 入力（デバイスからセッションにメディアを提供する）
         do {
-            let deviceInput = try AVCaptureDeviceInput(device: device!)
+            deviceInput = try AVCaptureDeviceInput(device: device!)
             // セッションに入力を追加
-            guard session.canAddInput(deviceInput) else {
+            guard session.canAddInput(deviceInput!) else {
                 print("cannot add input")
                 return
             }
-            session.addInput(deviceInput)
+            session.addInput(deviceInput!)
         } catch {
             print("Error: device input")
             return
@@ -106,6 +112,64 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         // キャプチャ
         photoOutput.capturePhoto(with: photoSetting, delegate: self)
     }
+    
+    // カメラを変える
+    @IBAction func changeFrontBack(_ sender: Any) {
+        session.beginConfiguration()
+        
+        // 以前の入力を削除
+        session.removeInput(deviceInput!)
+        
+        let cameraPosition: AVCaptureDevice.Position
+        if isFrontCamera {
+            // front -> back
+            isFrontCamera = false
+            cameraPosition = .back
+        } else {
+            // back -> front
+            isFrontCamera = true
+            cameraPosition = .front
+        }
+        
+        // デバイスを取得
+        let deviceDicoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
+        let deviceArray = deviceDicoverySession.devices
+        print("##devices: \(deviceArray)")
+        
+        var newDevice: AVCaptureDevice!
+        for device in deviceArray {
+            newDevice = device
+            if device.position == cameraPosition {
+                break
+            }
+        }
+        // let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: AVCaptureDevice.Position.front)
+        
+        do {
+            //  新しい入力
+            let newDeviceInput = try AVCaptureDeviceInput(device: newDevice)
+            // 入力を追加できるかどうか
+            if session.canAddInput(newDeviceInput) {
+                // 新しい入力を追加
+                session.addInput(newDeviceInput)
+                deviceInput = newDeviceInput
+            } else {
+                // 以前の入力
+                session.addInput(deviceInput!)
+            }
+        } catch {
+            print("Error: device input")
+            // 以前の入力
+            session.addInput(deviceInput!)
+        }
+        
+        /*
+        guard let input = session.inputs.first else {
+            return
+        }*/
+        session.commitConfiguration()
+    }
+    
     
     // ---- デリゲートメソッド ----
     
