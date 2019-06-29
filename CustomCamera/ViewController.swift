@@ -6,15 +6,23 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     // カメラビュー
     @IBOutlet weak var cameraView: UIView!
     
+    @IBOutlet weak var flashButton: UIButton!
+    
     // 保存された写真
     var capturedImage: UIImage?
     
     // front or back camera
     var isFrontCamera = false
     
+    // flash mode
+    var currentFlashMode = CurrentFlashMode.off
+    
     // セッション
     // （キャプチャデバイスへのアクセスと、入力から出力へのデータの流れを管理する）
     var session = AVCaptureSession()
+    
+    // デバイス
+    var device: AVCaptureDevice?
     
     // 入力
     var deviceInput: AVCaptureDeviceInput?
@@ -54,7 +62,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         session.sessionPreset = AVCaptureSession.Preset.photo
         
         // デバイスの設定（広角カメラ、メディアタイプは動画、背面カメラ）
-        let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: AVCaptureDevice.Position.back)
+        device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: AVCaptureDevice.Position.back)
         
         // 入力（デバイスからセッションにメディアを提供する）
         do {
@@ -95,20 +103,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         print("set preview layer")
     }
     
+    // 撮影ボタン
     @IBAction func cameraButtonTap(_ sender: UIButton) {
-        // キャプチャの設定
-        var photoSetting = AVCapturePhotoSettings()
-        
-        // HEVC (High Efficiency Video Codec)
-        /*
-         if self.photoOutput.availablePhotoFileTypes.contains(AVFileType.heic) {
-         photoSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.hevc])
-         }*/
-        
-        // 自動フラッシュ
-        photoSetting.flashMode = AVCaptureDevice.FlashMode.auto
-        // 最高の解像度でキャプチャするかどうか
-        photoSetting.isHighResolutionPhotoEnabled = false
+        // AVCapturePhotoSettings
+        let photoSetting = getPhotoSettings(device: device!, flashMode: currentFlashMode)
         // キャプチャ
         photoOutput.capturePhoto(with: photoSetting, delegate: self)
     }
@@ -143,7 +141,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                 break
             }
         }
-        // let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: AVCaptureDevice.Position.front)
         
         do {
             //  新しい入力
@@ -170,6 +167,39 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         session.commitConfiguration()
     }
     
+    // フラッシュの設定
+    @IBAction func changeFlashMode(_ sender: UIButton) {
+        switch currentFlashMode {
+        case .off:
+            currentFlashMode = .auto
+            flashButton.setImage(UIImage(named: "flash_auto"), for: .normal)
+        case .auto:
+            currentFlashMode = .on
+            flashButton.setImage(UIImage(named: "flash_on"), for: .normal)
+        case .on:
+            currentFlashMode = .off
+            flashButton.setImage(UIImage(named: "flash_off"), for: .normal)
+        }
+    }
+    
+    // AVCapturePhotoSettingの設定
+    func getPhotoSettings(device: AVCaptureDevice, flashMode: CurrentFlashMode) -> AVCapturePhotoSettings {
+        let photoSetting = AVCapturePhotoSettings()
+        // フラッシュ設定
+        if device.hasFlash {
+            switch flashMode {
+            case .auto:
+                photoSetting.flashMode = .auto
+            case .off:
+                photoSetting.flashMode = .off
+            case .on:
+                photoSetting.flashMode = .on
+            }
+        }
+        // 最高の解像度でキャプチャするかどうか
+        photoSetting.isHighResolutionPhotoEnabled = false
+        return photoSetting
+    }
     
     // ---- デリゲートメソッド ----
     
@@ -196,7 +226,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // 写真のキャプチャが終了した時に呼ばれる
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
-        
+        print("フラッシュの設定：\(resolvedSettings.isFlashEnabled)")
     }
     
     // 編集画面へ遷移

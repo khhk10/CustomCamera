@@ -24,7 +24,7 @@
                                     <constraint firstAttribute="width" constant="80" id="KSB-gJ-Qf2"/>
                                     <constraint firstAttribute="height" constant="80" id="VN5-bp-hUF"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="circle"/>
+                                <state key="normal" backgroundImage="circle_2"/>
                                 <connections>
                                     <action selector="cameraButtonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Iwt-C6-lgM"/>
                                 </connections>
@@ -44,6 +44,14 @@
                                     <action selector="changeFrontBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hMM-gA-QIg"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="91a-Rk-z4m">
+                                <rect key="frame" x="364" y="565" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="flash_off"/>
+                                <connections>
+                                    <action selector="changeFlashMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TRo-P9-LFN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -57,6 +65,7 @@
                     </view>
                     <connections>
                         <outlet property="cameraView" destination="TRd-11-SnB" id="AyP-0D-vAn"/>
+                        <outlet property="flashButton" destination="91a-Rk-z4m" id="bwb-IH-7bu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -137,6 +146,7 @@
     </scenes>
     <resources>
         <image name="change_white" width="128" height="128"/>
-        <image name="circle" width="400" height="400"/>
+        <image name="circle_2" width="222" height="222"/>
+        <image name="flash_off" width="128" height="128"/>
     </resources>
 </document>
