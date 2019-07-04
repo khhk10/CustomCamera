@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		551E205922CB6E910027B58C /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551E205822CB6E910027B58C /* Filter.swift */; };
+		551E205B22CC21800027B58C /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551E205A22CC21800027B58C /* ContainerViewController.swift */; };
+		551E205D22CDE81A0027B58C /* EditerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551E205C22CDE81A0027B58C /* EditerList.swift */; };
+		551E205F22CDEF170027B58C /* FilterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551E205E22CDEF170027B58C /* FilterList.swift */; };
+		551E206122CDFA820027B58C /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551E206022CDFA820027B58C /* Item.swift */; };
 		557C981E22BE0D4500F43905 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557C981D22BE0D4500F43905 /* AppDelegate.swift */; };
 		557C982022BE0D4500F43905 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557C981F22BE0D4500F43905 /* ViewController.swift */; };
 		557C982322BE0D4500F43905 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 557C982122BE0D4500F43905 /* Main.storyboard */; };
@@ -15,11 +19,14 @@
 		557C982822BE0D4700F43905 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 557C982622BE0D4700F43905 /* LaunchScreen.storyboard */; };
 		557C983022C0223000F43905 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557C982F22C0223000F43905 /* EditViewController.swift */; };
 		557C983222C02A3F00F43905 /* photo3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 557C983122C02A3F00F43905 /* photo3.jpg */; };
-		557C983622C7418200F43905 /* CurrentFlashMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557C983522C7418200F43905 /* CurrentFlashMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		551E205822CB6E910027B58C /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		551E205A22CC21800027B58C /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		551E205C22CDE81A0027B58C /* EditerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditerList.swift; sourceTree = "<group>"; };
+		551E205E22CDEF170027B58C /* FilterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterList.swift; sourceTree = "<group>"; };
+		551E206022CDFA820027B58C /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		557C981A22BE0D4500F43905 /* CustomCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		557C981D22BE0D4500F43905 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		557C981F22BE0D4500F43905 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,7 +36,6 @@
 		557C982922BE0D4700F43905 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		557C982F22C0223000F43905 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		557C983122C02A3F00F43905 /* photo3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = photo3.jpg; sourceTree = "<group>"; };
-		557C983522C7418200F43905 /* CurrentFlashMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFlashMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +71,11 @@
 				557C981D22BE0D4500F43905 /* AppDelegate.swift */,
 				557C981F22BE0D4500F43905 /* ViewController.swift */,
 				557C982F22C0223000F43905 /* EditViewController.swift */,
+				551E206022CDFA820027B58C /* Item.swift */,
+				551E205C22CDE81A0027B58C /* EditerList.swift */,
+				551E205E22CDEF170027B58C /* FilterList.swift */,
 				551E205822CB6E910027B58C /* Filter.swift */,
-				557C983522C7418200F43905 /* CurrentFlashMode.swift */,
+				551E205A22CC21800027B58C /* ContainerViewController.swift */,
 				557C983122C02A3F00F43905 /* photo3.jpg */,
 				557C982122BE0D4500F43905 /* Main.storyboard */,
 				557C982422BE0D4700F43905 /* Assets.xcassets */,
@@ -148,11 +157,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				551E205D22CDE81A0027B58C /* EditerList.swift in Sources */,
 				557C982022BE0D4500F43905 /* ViewController.swift in Sources */,
 				551E205922CB6E910027B58C /* Filter.swift in Sources */,
+				551E205F22CDEF170027B58C /* FilterList.swift in Sources */,
+				551E206122CDFA820027B58C /* Item.swift in Sources */,
 				557C981E22BE0D4500F43905 /* AppDelegate.swift in Sources */,
 				557C983022C0223000F43905 /* EditViewController.swift in Sources */,
-				557C983622C7418200F43905 /* CurrentFlashMode.swift in Sources */,
+				551E205B22CC21800027B58C /* ContainerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -244,5 +244,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         // プレビュー画像を設定
         present(editViewController, animated: true, completion: nil)
     }
+    
+    enum CurrentFlashMode {
+        case auto
+        case on
+        case off
+    }
 }
 

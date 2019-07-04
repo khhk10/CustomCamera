@@ -3,10 +3,13 @@ import UIKit
 class EditViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var editView: UIImageView!
-    
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var itemNum: Int?
+    // 編集モード
+    var editMode = EditMode.filter
+    
+    var filterItemNum: Int?
+    var editerItemNum: Int?
     
     var ciContext: CIContext?
     
@@ -14,12 +17,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     var image: UIImage?
     // 元の画像の向き（画像処理後に適用する）
     var orientaion: UIImage.Orientation?
-    
-    // サムネイル写真のファイル名とタイトル
-    struct Item {
-        var title: String
-        var image: UIImage
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,19 +29,28 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         // 編集画面にキャプチャ画像を設定
         editView.image = image
         
-        // サムネイル画像のリスト
-        let itemList = createList()
-        itemNum = itemList.count
+        // フィルターのリスト
+        let filterItemList = createFilterList()
+        filterItemNum = filterItemList.count
+        // コンテンツビューを追加（フィルタ）
+        let subViewFilter = createContentsView(itemList: filterItemList)
+        scrollView.addSubview(subViewFilter)
         
-        // コンテンツビューを追加
-        let subView = createContentsView(itemList: itemList)
-        scrollView.addSubview(subView)
+        // エディタのリスト
+        let editerItemList = createEditerList()
+        // コンテンツビューを追加（エディタ）
+        let subViewEditer = createContentsView(itemList: editerItemList)
+        scrollView.addSubview(subViewEditer)
         
         // スクロールビューの設定
         scrollView.delegate = self
         scrollView.isPagingEnabled  = true
         scrollView.contentOffset = CGPoint(x: 0, y: 0)
-        scrollView.contentSize = subView.frame.size
+        scrollView.contentSize = subViewFilter.frame.size
+        
+        // 最初はフィルタのリストを表示しておく
+        self.scrollView.subviews[0].isHidden = false
+        self.scrollView.subviews[1].isHidden = true
     }
     
     func createContentsView(itemList: Array<Item>) -> UIView {
@@ -60,7 +66,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         let pageViewRect = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
         
         // コンテンツビューの位置とサイズ
-        contentView.frame = CGRect(x: 0, y: 0, width: pageWidth * CGFloat(itemNum!), height: pageHeight)
+        contentView.frame = CGRect(x: 0, y: 0, width: pageWidth * CGFloat(filterItemNum!), height: pageHeight)
         
         for i in 0..<itemList.count {
             let item = itemList[i]
@@ -97,11 +103,19 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         label.font = UIFont.systemFont(ofSize: 10.0)
         label.textColor = UIColor.darkGray
         
-        // imageViewにタップジェスチャーを追加
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPageView(_:)))
-        // imageViewのタップイベントをオンにする
-        imageView.isUserInteractionEnabled = true
-        imageView.addGestureRecognizer(tapGesture)
+        // タップイベント
+        switch item.listType {
+        case .filter:
+            // ジェスチャを追加
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPageView(_:)))
+            // タップイベントをオンにする
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(tapGesture)
+        case .editer:
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showSlider(_:)))
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(tapGesture)
+        }
         
         // ページビューに追加
         pageView.addSubview(imageView)
@@ -119,41 +133,27 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         print("##tapPageView")
     }
     
-    // 画像にフィルタ加工をも施す
-    func createList() -> Array<Item> {
-        // Item型リスト
-        var list = [Item]()
+    // スライダーを表示する
+    @objc func showSlider(_ sender: UITapGestureRecognizer) {
+        let viewController = UIViewController()
+        viewController.modalPresentationStyle = .overCurrentContext
+        viewController.view.backgroundColor = UIColor.blue
+        viewController.view.alpha = 0.5
+        viewController.view.frame = CGRect(x: 0, y: self.view.frame.height - 200, width: self.view.frame.width, height: 200)
         
-        // CIImage
-        let original = CIImage(image: image!)
-        
-        // clampフィルタ
-        let clampImage = clampFilter(original!, inputMin: CIVector(x: 0, y: 0, z: 0, w: 0), inputMax: CIVector(x: 1.0, y: 1.0, z: 0.3, w: 0.8))
-        let clamp = Item(title: "Clamp", image: clampImage)
-        list.append(clamp)
-        
-        // bloomフィルタ
-        let bloomImage = bloomFilter(original!, intensity: 1.9, radius: 10)
-        let bloom = Item(title: "Bloom", image: bloomImage)
-        list.append(bloom)
-        
-        // crystalizeフィルタ
-        let crystalImage = crystallizeFilter(original!, radius: 100, center: CIVector(x: 150, y: 150))
-        let crystal = Item(title: "Crystal", image: crystalImage)
-        list.append(crystal)
-        
-        // gaussianフィルタ
-        let gaussianImage = gaussianFilter(original!, radius: 10)
-        let gaussian = Item(title: "Gaussian", image: gaussianImage)
-        list.append(gaussian)
-        
-        // originalフィルタ
-        let cgOriginal = ciContext?.createCGImage(original!, from: original!.extent)
-        let uiOriginal = UIImage(cgImage: cgOriginal!, scale: 0, orientation: orientaion!)
-        let ori = Item(title: "Original", image: uiOriginal)
-        list.append(ori)
-        
-        return list
+        // キャンセルボタン追加
+        let cancel = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        cancel.setTitle("cancel", for: .normal)
+        cancel.titleLabel?.textColor = UIColor.white
+        cancel.center = viewController.view.center
+        cancel.addTarget(self, action: #selector(cancelSlider(_:)), for: .touchUpInside)
+        viewController.view.addSubview(cancel)
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    // スライダーのキャンセルボタン
+    @objc func cancelSlider(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     // キャンセルボタン
@@ -191,7 +191,46 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         print("\(error)")
     }
     
-
+    // フィルタを表示するボタン
+    @IBAction func showFiltersButton(_ sender: UIButton) {
+        editMode = .filter
+        // フィルタのリストを表示する
+        self.scrollView.subviews[0].isHidden = false
+        self.scrollView.subviews[1].isHidden = true
+    }
+    
+    // 編集を表示するボタン
+    @IBAction func showEditerButton(_ sender: Any) {
+        editMode = .editer
+        // エディタのリストを表示する
+        self.scrollView.subviews[0].isHidden = true
+        self.scrollView.subviews[1].isHidden = false
+    }
+    
+    // 編集モード
+    enum EditMode {
+        case filter
+        case editer
+    }
+    
+    // 画面遷移
+    /*
+    func goToContainerView(_ editMode: EditMode) {
+        var identifier = "filter"
+        switch editMode {
+        case .filter:
+            identifier = "filter"
+        case .editer:
+            identifier = "editer"
+        }
+        
+        guard let containerViewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as? ContainerViewController else {
+            return
+        }
+        present(containerViewController, animated: true, completion: nil)
+    }
+   */
+    
     /*
     // MARK: - Navigation
 
