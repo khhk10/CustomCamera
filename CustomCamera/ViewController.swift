@@ -216,6 +216,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         }
         
         capturedImage = image
+        print("\(capturedImage?.size)")
         
         // アルバムに保存
         // UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
