@@ -4,7 +4,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     // プレビュー画面
     @IBOutlet weak var editView: UIImageView!
-<<<<<<< HEAD
+
     // （フィルター or 編集の）リストを表示するビュー
     @IBOutlet weak var scrollView: UIScrollView!
     // ボタンやスライダーを表示するビュー
@@ -17,14 +17,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     var filterItemList: [Item] = []
     var editerItemList: [Item] = []
-=======
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var componentView: UIView!
-    
-    // 編集モード
-    var editMode = EditMode.filter
-    
->>>>>>> origin/master
+
     var filterItemNum: Int?
     var editerItemNum: Int?
     
@@ -47,7 +40,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         editView.image = image
         
         // フィルターのリスト
-<<<<<<< HEAD
         filterItemList = createFilterList()
         filterItemNum = filterItemList.count
         // コンテンツビューを追加（フィルタ）
@@ -59,18 +51,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         editerItemNum = editerItemList.count
         // コンテンツビューを追加（エディタ）
         let subViewEditer = createContentsView(itemList: editerItemList, imageSize: CGSize(width: 70, height: 70), itemNum: editerItemNum!)
-=======
-        let filterItemList = createFilterList()
-        filterItemNum = filterItemList.count
-        // コンテンツビューを追加（フィルタ）
-        let subViewFilter = createContentsView(itemList: filterItemList)
-        scrollView.addSubview(subViewFilter)
-        
-        // エディタのリスト
-        let editerItemList = createEditerList()
-        // コンテンツビューを追加（エディタ）
-        let subViewEditer = createContentsView(itemList: editerItemList)
->>>>>>> origin/master
         scrollView.addSubview(subViewEditer)
         
         // スクロールビューの設定
@@ -91,11 +71,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         
         // フィルタを表示するボタン
         let filterShowButton = UIButton(type: .system)
-<<<<<<< HEAD
         filterShowButton.addTarget(self, action: #selector(showFilterList(_:)), for: .touchUpInside)
-=======
-        filterShowButton.addTarget(self, action: #selector(showFilters(_:)), for: .touchUpInside)
->>>>>>> origin/master
         filterShowButton.setTitle("フィルタ", for: .normal)
         filterShowButton.setTitleColor(.black, for: .normal)
         filterShowButton.frame = CGRect(x: buttonView.bounds.origin.x + 50, y: buttonView.bounds.origin.y + 30, width: 62, height: 30)
@@ -103,11 +79,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         
         // エディタを表示するボタン
         let editerShowButton = UIButton(type: .system)
-<<<<<<< HEAD
         editerShowButton.addTarget(self, action: #selector(showEditerList(_:)), for: .touchUpInside)
-=======
-        editerShowButton.addTarget(self, action: #selector(showEditers(_:)), for: .touchUpInside)
->>>>>>> origin/master
         editerShowButton.setTitle("編集", for: .normal)
         editerShowButton.setTitleColor(.lightGray, for: .normal)
         let size = CGSize(width: 31, height: 30)
@@ -121,7 +93,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         let slider = UISlider()
         slider.frame.size = CGSize(width: 300, height: 30)
         slider.center = sliderView.center
-<<<<<<< HEAD
         slider.minimumValue = -0.5
         slider.maximumValue = 0.5
         slider.value = 0.0
@@ -131,17 +102,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         let ok = UIButton(frame: CGRect(x: sliderView.frame.width - 50, y: 20, width: 30, height: 30))
         ok.contentMode = .scaleAspectFit
         ok.setImage(UIImage(named: "checkmark"), for: .normal)
-=======
-        slider.minimumValue = 0.0
-        slider.maximumValue = 1.0
-        slider.value = 0.5
-        sliderView.addSubview(slider)
-        // キャンセルボタン
-        let ok = UIButton(frame: CGRect(x: 0, y: 20, width: 100, height: 20))
-        ok.setTitle("ok", for: .normal)
-        // cancel.titleLabel?.textColor = .black
-        ok.setTitleColor(.black, for: .normal)
->>>>>>> origin/master
         ok.addTarget(self, action: #selector(okSlider(_:)), for: .touchUpInside)
         sliderView.addSubview(ok)
         
@@ -167,14 +127,10 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         let pageViewRect = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
         
         // コンテンツビューの位置とサイズ
-<<<<<<< HEAD
         contentView.frame = CGRect(x: 0, y: 0, width: pageWidth * CGFloat(itemNum), height: pageHeight)
         
         print("アイテムの数：\(itemNum)" )
         print("コンテンツのサイズ：\(contentView.frame)")
-=======
-        contentView.frame = CGRect(x: 0, y: 0, width: pageWidth * CGFloat(filterItemNum!), height: pageHeight)
->>>>>>> origin/master
         
         for i in 0..<itemList.count {
             let item = itemList[i]
@@ -244,7 +200,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     // スライダーを表示する
     @objc func showSlider(_ sender: UITapGestureRecognizer) {
-<<<<<<< HEAD
         let sliderView = componentView.subviews[1] as! UIView
         let slider = sliderView.subviews[0] as! UISlider
         
@@ -278,11 +233,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         sliderView.isHidden = false
         
         print("clicked element : \(imageView.accessibilityIdentifier)")
-        
-=======
-        componentView.subviews[0].isHidden = true
-        componentView.subviews[1].isHidden = false
->>>>>>> origin/master
+
         /*
         let viewController = UIViewController()
         viewController.modalPresentationStyle = .overCurrentContext
@@ -302,12 +253,9 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     // スライダーのキャンセルボタン
     @objc func okSlider(_ sender: UIButton) {
-<<<<<<< HEAD
         // 元の画像に結果を反映
         // self.image = editView.image
         
-=======
->>>>>>> origin/master
         // dismiss(animated: true, completion: nil)
         componentView.subviews[0].isHidden = false
         componentView.subviews[1].isHidden = true
@@ -349,20 +297,14 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // フィルタを表示するボタン
-<<<<<<< HEAD
     @objc func showFilterList(_ sender: UIButton) {
         listMode = .filter
-=======
-    @objc func showFilters(_ sender: UIButton) {
-        editMode = .filter
->>>>>>> origin/master
         // フィルタのリストを表示する
         self.scrollView.subviews[0].isHidden = false
         self.scrollView.subviews[1].isHidden = true
         // ボタンの色を変更する
         let filterButton = componentView.subviews[0].subviews[0] as! UIButton
         let editerButton = componentView.subviews[0].subviews[1] as! UIButton
-<<<<<<< HEAD
         filterButton.setTitleColor(.black, for: .normal )
         editerButton.setTitleColor(.lightGray, for: .normal)
     }
@@ -370,7 +312,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     // 編集を表示するボタン
     @objc func showEditerList(_ sender: UIButton) {
         listMode = .editer
-=======
         filterButton.setTitleColor(.lightGray, for: .normal )
         editerButton.setTitleColor(.black, for: .normal)
     }
@@ -378,14 +319,12 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     // 編集を表示するボタン
     @objc func showEditers(_ sender: UIButton) {
         editMode = .editer
->>>>>>> origin/master
         // エディタのリストを表示する
         self.scrollView.subviews[0].isHidden = true
         self.scrollView.subviews[1].isHidden = false
         // ボタンの色を変更する
         let filterButton = componentView.subviews[0].subviews[0] as! UIButton
         let editerButton = componentView.subviews[0].subviews[1] as! UIButton
-<<<<<<< HEAD
         filterButton.setTitleColor(.lightGray, for: .normal)
         editerButton.setTitleColor(.black, for: .normal)
     }
@@ -430,16 +369,12 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
             self.editView.image = UIImage(cgImage: cgImage, scale: 0, orientation: self.orientaion!)
             print("Slider value : \(Double(sender.value))")
         }
-=======
-        filterButton.setTitleColor(.black, for: .normal)
-        editerButton.setTitleColor(.lightGray, for: .normal)
     }
     
     // 編集モード
     enum EditMode {
         case filter
         case editer
->>>>>>> origin/master
     }
     
     // 画面遷移
