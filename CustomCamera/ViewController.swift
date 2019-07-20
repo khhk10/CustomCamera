@@ -216,6 +216,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         }
         
         capturedImage = image
+        print("\(capturedImage?.size)")
         
         // アルバムに保存
         // UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
@@ -243,6 +244,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         // プレビュー画像を設定
         present(editViewController, animated: true, completion: nil)
+    }
+    
+    enum CurrentFlashMode {
+        case auto
+        case on
+        case off
     }
 }
 
