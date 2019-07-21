@@ -1,6 +1,7 @@
 import UIKit
 
 extension EditViewController {
+    
     // clampフィルタ
     func clampFilter(_ input: CIImage, inputMin: CIVector, inputMax: CIVector) -> UIImage {
         let clampFilter = CIFilter(name: "CIColorClamp")
@@ -17,7 +18,7 @@ extension EditViewController {
             return UIImage(ciImage: input)
         }
         // UIImage生成
-        let uiClamp = UIImage(cgImage: cgClamp, scale: 0, orientation: orientaion!)
+        let uiClamp = UIImage(cgImage: cgClamp, scale: 0, orientation: orientation!)
         
         return uiClamp
     }
@@ -38,7 +39,7 @@ extension EditViewController {
             return UIImage(ciImage: input)
         }
         // UIImage生成
-        let uiBloom = UIImage(cgImage: cgBloom, scale: 0, orientation: orientaion!)
+        let uiBloom = UIImage(cgImage: cgBloom, scale: 0, orientation: orientation!)
         
         return uiBloom
     }
@@ -59,7 +60,7 @@ extension EditViewController {
             return UIImage(ciImage: input)
         }
         // UIImage生成
-        let uiCrystal = UIImage(cgImage: cgCrystal, scale: 0, orientation: orientaion!)
+        let uiCrystal = UIImage(cgImage: cgCrystal, scale: 0, orientation: orientation!)
         
         return uiCrystal
     }
@@ -79,7 +80,7 @@ extension EditViewController {
             return UIImage(ciImage: input)
         }
         // UIImage生成
-        let uiGaussian = UIImage(cgImage: cgGaussian, scale: 0, orientation: orientaion!)
+        let uiGaussian = UIImage(cgImage: cgGaussian, scale: 0, orientation: orientation!)
         
         return uiGaussian
     }

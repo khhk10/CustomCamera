@@ -6,8 +6,6 @@ extension EditViewController {
     func createEditerList() -> Array<Item> {
         var list = [Item]()
         
-        let size = CGSize(width: 70, height: 70)
-        
         // 明るさ
         let brightnessIcon = UIImage(named: "brightness")
         let brightness = Item(name: "Brightness", image: brightnessIcon!, listType: .editer, sliderValue: 0.0)
@@ -23,8 +21,10 @@ extension EditViewController {
         let saturation = Item(name: "Saturation", image: saturationIcon!, listType: .editer, sliderValue: 1.0)
         list.append(saturation)
         
-        // list.append(saturation)
-        // list.append(saturation)
+        // 回転
+        let rotationIcon = UIImage(named: "rotation")
+        let rotation = Item(name: "Rotation", image: rotationIcon!, listType: .editer, sliderValue: nil)
+        list.append(rotation)
         
         return list
     }

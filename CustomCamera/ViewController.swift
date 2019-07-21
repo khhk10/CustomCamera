@@ -98,8 +98,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         previewLayer.masksToBounds = true
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         
-        cameraView.layer.addSublayer(previewLayer)
+        if previewLayer.connection!.isVideoOrientationSupported {
+            // ビデオの向きを変更
+            previewLayer.connection!.videoOrientation = .portrait
+            print("VideoOrientaiton is supported !")
+        }
+        print("videoOrientaion : \(previewLayer.connection!.videoOrientation.rawValue)")
         
+        cameraView.layer.addSublayer(previewLayer)
         print("set preview layer")
     }
     

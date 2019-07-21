@@ -32,7 +32,7 @@ extension EditViewController {
         
         // originalフィルタ
         let cgOriginal = ciContext?.createCGImage(original!, from: original!.extent)
-        let uiOriginal = UIImage(cgImage: cgOriginal!, scale: 0, orientation: orientaion!)
+        let uiOriginal = UIImage(cgImage: cgOriginal!, scale: 0, orientation: orientation!)
         let ori = Item(name: "Original", image: uiOriginal, listType: .filter, sliderValue: nil)
         list.append(ori)
         

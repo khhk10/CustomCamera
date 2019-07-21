@@ -4,7 +4,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     // プレビュー画面
     @IBOutlet weak var editView: UIImageView!
-
     // （フィルター or 編集の）リストを表示するビュー
     @IBOutlet weak var scrollView: UIScrollView!
     // ボタンやスライダーを表示するビュー
@@ -17,7 +16,6 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     var filterItemList: [Item] = []
     var editerItemList: [Item] = []
-
     var filterItemNum: Int?
     var editerItemNum: Int?
     
@@ -26,13 +24,15 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     // 元の画像
     var image: UIImage?
     // 元の画像の向き（画像処理後に適用する）
-    var orientaion: UIImage.Orientation?
+    var orientation: UIImage.Orientation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 元の画像の向きを保存
-        orientaion = image?.imageOrientation
+        orientation = image?.imageOrientation
+        // orientation = UIImage.Orientation.up
+        print("imageOrientation : \(orientation?.rawValue)")
         
         ciContext = CIContext(options: nil)
         
@@ -172,12 +172,12 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         switch item.listType {
         case .filter:
             // ジェスチャを追加
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPageView(_:)))
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapFilterItem(_:)))
             // タップイベントをオンにする
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(tapGesture)
         case .editer:
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showSlider(_:)))
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapEditerItem(_:)))
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(tapGesture)
         }
@@ -189,8 +189,8 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         return pageView
     }
     
-    // ページビューのタップイベント
-    @objc func tapPageView(_ sender: UITapGestureRecognizer) {
+    // フィルターリストのアイテムをタップ
+    @objc func tapFilterItem(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as? UIImageView
         editView.image = imageView?.image
         
@@ -198,57 +198,57 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         print("##tapPageView")
     }
     
-    // スライダーを表示する
-    @objc func showSlider(_ sender: UITapGestureRecognizer) {
-        let sliderView = componentView.subviews[1] as! UIView
-        let slider = sliderView.subviews[0] as! UISlider
-        
+    // 編集リストのアイテムをタップ
+    @objc func tapEditerItem(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
+        
         switch imageView.accessibilityIdentifier {
         case "Brightness":
-            // 保存したスライダーの値の読み出し
-            slider.minimumValue = -0.4
-            slider.maximumValue = 0.4
-            slider.value = editerItemList[0].sliderValue!
-            print("item name : \(editerItemList[0].name), \(slider.value)")
+            // スライダーの設定と表示
+            showSlider(min: -0.4, max: 0.4, value: editerItemList[0].sliderValue!)
             changedParameter = .brightness
         case "Contrast":
-            slider.minimumValue = 0.0
-            slider.maximumValue = 2.0
-            slider.value = editerItemList[1].sliderValue!
-            print("item name : \(editerItemList[1].name), \(slider.value)")
+            showSlider(min: 0.0, max: 2.0, value: editerItemList[1].sliderValue!)
             changedParameter = .contrast
         case "Saturation":
-            slider.minimumValue = 0.0
-            slider.maximumValue = 2.0
-            slider.value = editerItemList[2].sliderValue!
-            print("item name : \(editerItemList[2].name), \(slider.value)")
+            showSlider(min: 0.0, max: 2.0, value: editerItemList[2].sliderValue!)
             changedParameter = .saturation
+        case "Rotation":
+            // 画像を回転
+            rotateImage()
         default:
             return
         }
-        
+        print("clicked element : \(imageView.accessibilityIdentifier)")
+    }
+    
+    // スライダーの設定と表示
+    func showSlider(min: Float, max: Float, value: Float) {
+        let sliderView = componentView.subviews[1] as UIView
+        let slider = sliderView.subviews[0] as! UISlider
+        slider.minimumValue = min
+        slider.maximumValue = max
+        slider.value = value
         // ボタンを隠し、スライダーを表示する
         componentView.subviews[0].isHidden = true
         sliderView.isHidden = false
-        
-        print("clicked element : \(imageView.accessibilityIdentifier)")
-
-        /*
-        let viewController = UIViewController()
-        viewController.modalPresentationStyle = .overCurrentContext
-        viewController.view.backgroundColor = UIColor.blue
-        viewController.view.alpha = 0.5
-        viewController.view.frame = CGRect(x: 0, y: self.view.frame.height - self.view.frame.height/2, width: self.view.frame.width, height: 200)
-        // キャンセルボタン追加
-        let cancel = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        cancel.setTitle("cancel", for: .normal)
-        cancel.titleLabel?.textColor = UIColor.white
-        cancel.center = viewController.view.center
-        cancel.addTarget(self, action: #selector(cancelSlider(_:)), for: .touchUpInside)
-        sliderView.addSubview(cancel)
-        present(viewController, animated: true, completion: nil)
-         */
+    }
+    
+    // 画像を回転させる
+    func rotateImage() {
+        let currentOrient = editView.image!.imageOrientation
+        switch currentOrient {
+        case .up:
+            editView.image! = UIImage(cgImage: editView.image!.cgImage!, scale: editView.image!.scale, orientation: .left)
+        case .down:
+            editView.image! = UIImage(cgImage: editView.image!.cgImage!, scale: editView.image!.scale, orientation: .right)
+        case .left:
+            editView.image! = UIImage(cgImage: editView.image!.cgImage!, scale: editView.image!.scale, orientation: .down)
+        case .right:
+            editView.image! = UIImage(cgImage: editView.image!.cgImage!, scale: editView.image!.scale, orientation: .up)
+        default:
+            editView.image! = UIImage(cgImage: editView.image!.cgImage!, scale: editView.image!.scale, orientation: .right)
+        }
     }
     
     // スライダーのキャンセルボタン
@@ -296,7 +296,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         print("\(error)")
     }
     
-    // フィルタを表示するボタン
+    // フィルターリストを表示するボタン
     @objc func showFilterList(_ sender: UIButton) {
         listMode = .filter
         // フィルタのリストを表示する
@@ -309,16 +309,9 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         editerButton.setTitleColor(.lightGray, for: .normal)
     }
     
-    // 編集を表示するボタン
+    // 編集リストを表示するボタン
     @objc func showEditerList(_ sender: UIButton) {
         listMode = .editer
-        filterButton.setTitleColor(.lightGray, for: .normal )
-        editerButton.setTitleColor(.black, for: .normal)
-    }
-    
-    // 編集を表示するボタン
-    @objc func showEditers(_ sender: UIButton) {
-        editMode = .editer
         // エディタのリストを表示する
         self.scrollView.subviews[0].isHidden = true
         self.scrollView.subviews[1].isHidden = false
@@ -366,15 +359,9 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
             guard let cgImage = self.ciContext?.createCGImage(ciImage, from: ciImage.extent) else {
                 return
             }
-            self.editView.image = UIImage(cgImage: cgImage, scale: 0, orientation: self.orientaion!)
+            self.editView.image = UIImage(cgImage: cgImage, scale: 0, orientation:  self.orientation!)
             print("Slider value : \(Double(sender.value))")
         }
-    }
-    
-    // 編集モード
-    enum EditMode {
-        case filter
-        case editer
     }
     
     // 画面遷移
