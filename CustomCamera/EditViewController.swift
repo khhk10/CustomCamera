@@ -25,6 +25,10 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     var image: UIImage?
     // 元の画像の向き（画像処理後に適用する）
     var orientation: UIImage.Orientation?
+    
+    var previousSliderValue: Float = 0
+    var hapticFlag = false
+    var feedBackGenerator: UIImpactFeedbackGenerator? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,7 +159,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         // UIImageViewの設定
         let location = CGPoint(x: (pageView.frame.width - imageSize.width)/2, y: 10)
         imageView.frame = CGRect(origin: location, size: imageSize)
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.image = item.image
         imageView.accessibilityIdentifier = item.name
@@ -176,6 +180,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
             // タップイベントをオンにする
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(tapGesture)
+            print(item.name + " : \(item.image.size)")
         case .editer:
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapEditerItem(_:)))
             imageView.isUserInteractionEnabled = true
@@ -337,10 +342,27 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     
     // スライダー操作
     @objc func changeSlider(_ sender: UISlider) {
+        
         DispatchQueue.main.async {
             let origiImage = CIImage(image: self.image!)
             
             var ciImage = CIImage()
+            
+            let centerValue = (sender.minimumValue + sender.maximumValue) / 2
+            let threshold = abs(sender.maximumValue - centerValue) * 0.02
+            print("centerValue : \(centerValue), threshold : \(threshold)")
+            
+            // 値が中心に近い場合は中心に戻す
+            if abs(sender.value - centerValue) < threshold {
+                sender.value = centerValue
+                if self.hapticFlag == true {
+                    self.hapticFlag == true
+                } else {
+                    self.hapticFlag == false
+                }
+            } else {
+                self.hapticFlag = true
+            }
             
             // CIImage取得、スライダーの値を保存
             switch self.changedParameter {
@@ -354,6 +376,8 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
                 ciImage = origiImage!.applyingFilter("CIColorControls", parameters: [kCIInputSaturationKey : Double(sender.value)])
                 self.editerItemList[2].sliderValue = sender.value
             }
+            
+            self.previousSliderValue = sender.value
             
             // CGImage取得
             guard let cgImage = self.ciContext?.createCGImage(ciImage, from: ciImage.extent) else {

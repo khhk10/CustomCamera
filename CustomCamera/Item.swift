@@ -6,6 +6,7 @@ struct Item {
     let image: UIImage
     let listType: ListType
     var sliderValue: Float?
+    var preSliderValue: Float?
     
     enum ListType {
         case filter
