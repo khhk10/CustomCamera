@@ -33,6 +33,8 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        image = UIImage(named: "mountain.jpg")
+        
         // 元の画像の向きを保存
         orientation = image?.imageOrientation
         // orientation = UIImage.Orientation.up
@@ -77,7 +79,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         let filterShowButton = UIButton(type: .system)
         filterShowButton.addTarget(self, action: #selector(showFilterList(_:)), for: .touchUpInside)
         filterShowButton.setTitle("フィルタ", for: .normal)
-        filterShowButton.setTitleColor(.black, for: .normal)
+        filterShowButton.setTitleColor(.lightGray, for: .normal) // black
         filterShowButton.frame = CGRect(x: buttonView.bounds.origin.x + 50, y: buttonView.bounds.origin.y + 30, width: 62, height: 30)
         buttonView.addSubview(filterShowButton)
         
@@ -85,7 +87,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         let editerShowButton = UIButton(type: .system)
         editerShowButton.addTarget(self, action: #selector(showEditerList(_:)), for: .touchUpInside)
         editerShowButton.setTitle("編集", for: .normal)
-        editerShowButton.setTitleColor(.lightGray, for: .normal)
+        editerShowButton.setTitleColor(.white, for: .normal) // white
         let size = CGSize(width: 31, height: 30)
         editerShowButton.frame = CGRect(x: buttonView.bounds.maxX - size.width - 100, y: buttonView.bounds.origin.y + 30, width: size.width, height: size.height)
         buttonView.addSubview(editerShowButton)
@@ -159,7 +161,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         // UIImageViewの設定
         let location = CGPoint(x: (pageView.frame.width - imageSize.width)/2, y: 10)
         imageView.frame = CGRect(origin: location, size: imageSize)
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = item.image
         imageView.accessibilityIdentifier = item.name
@@ -170,7 +172,7 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         label.textAlignment = .center
         label.text = item.name
         label.font = UIFont.systemFont(ofSize: 10.0)
-        label.textColor = UIColor.darkGray
+        label.textColor = UIColor.white // darkGray
         
         // タップイベント
         switch item.listType {
@@ -310,8 +312,8 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         // ボタンの色を変更する
         let filterButton = componentView.subviews[0].subviews[0] as! UIButton
         let editerButton = componentView.subviews[0].subviews[1] as! UIButton
-        filterButton.setTitleColor(.black, for: .normal )
-        editerButton.setTitleColor(.lightGray, for: .normal)
+        filterButton.setTitleColor(.lightGray, for: .normal ) // black
+        editerButton.setTitleColor(.white, for: .normal) // white
     }
     
     // 編集リストを表示するボタン
@@ -323,8 +325,8 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         // ボタンの色を変更する
         let filterButton = componentView.subviews[0].subviews[0] as! UIButton
         let editerButton = componentView.subviews[0].subviews[1] as! UIButton
-        filterButton.setTitleColor(.lightGray, for: .normal)
-        editerButton.setTitleColor(.black, for: .normal)
+        filterButton.setTitleColor(.white, for: .normal) // lightGray
+        editerButton.setTitleColor(.lightGray, for: .normal) // black
     }
     
     // リストの表示モード
@@ -356,9 +358,9 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
             if abs(sender.value - centerValue) < threshold {
                 sender.value = centerValue
                 if self.hapticFlag == true {
-                    self.hapticFlag == true
+                    self.hapticFlag = false
                 } else {
-                    self.hapticFlag == false
+                    self.hapticFlag = true
                 }
             } else {
                 self.hapticFlag = true
@@ -405,15 +407,4 @@ class EditViewController: UIViewController, UIScrollViewDelegate {
         present(containerViewController, animated: true, completion: nil)
     }
    */
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

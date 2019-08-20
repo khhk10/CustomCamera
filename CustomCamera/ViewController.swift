@@ -3,33 +3,19 @@ import AVFoundation
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
-    // カメラビュー
-    @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var cameraView: UIView! // プレビュー
+    @IBOutlet weak var flashButton: UIButton! // フラッシュボタン
     
-    @IBOutlet weak var flashButton: UIButton!
-    
-    // 保存された写真
-    var capturedImage: UIImage?
-    
-    // front or back camera
-    var isFrontCamera = false
-    
-    // flash mode
-    var currentFlashMode = CurrentFlashMode.off
+    var capturedImage: UIImage? // 撮影された写真
+    var isFrontCamera = false // カメラモード
+    var currentFlashMode = CurrentFlashMode.off // フラッシュモード
     
     // セッション
     // （キャプチャデバイスへのアクセスと、入力から出力へのデータの流れを管理する）
     var session = AVCaptureSession()
-    
-    // デバイス
-    var device: AVCaptureDevice?
-    
-    // 入力
-    var deviceInput: AVCaptureDeviceInput?
-    
-    // 出力（入力から提供されたデータを使用し、画像ファイルなどのメディアを作成する）
-    // capturing photo用の出力
-    var photoOutput = AVCapturePhotoOutput()
+    var device: AVCaptureDevice? // デバイス
+    var deviceInput: AVCaptureDeviceInput? // 入力
+    var photoOutput = AVCapturePhotoOutput() // メディアの出力（photo）
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,30 +23,21 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         // セッション実行中
         if session.isRunning {
             return
         }
-        
-        // セッションの設定
-        configure()
-        
-        // プレビューの設定
-        setPreview()
-        
-        // セッション開始（入力から出力へデータが送られる）
-        session.startRunning()
+        configure() // セッションの設定
+        setPreview() // プレビューの設定
+        session.startRunning()  // セッション開始（入力から出力へデータが送られる）
     }
     
     // セッションの設定
     func configure() {
         // 一連の設定変更を開始
         session.beginConfiguration()
-        
         // ビットレート設定 -> 高解像度カメラ
         session.sessionPreset = AVCaptureSession.Preset.photo
-        
         // デバイスの設定（広角カメラ、メディアタイプは動画、背面カメラ）
         device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: AVCaptureDevice.Position.back)
         
@@ -84,10 +61,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             return
         }
         session.addOutput(photoOutput)
-        
+
         // 一連の設定変更を更新
         session.commitConfiguration()
-        
         print("add input and output")
     }
     
@@ -117,9 +93,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         photoOutput.capturePhoto(with: photoSetting, delegate: self)
     }
     
-    // カメラを変える
+    // カメラの切り替え
     @IBAction func changeFrontBack(_ sender: Any) {
-        session.beginConfiguration()
+        session.beginConfiguration() // 設定開始
         
         // 以前の入力を削除
         session.removeInput(deviceInput!)
@@ -166,11 +142,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             session.addInput(deviceInput!)
         }
         
-        /*
-        guard let input = session.inputs.first else {
-            return
-        }*/
-        session.commitConfiguration()
+        session.commitConfiguration() // 設定更新
     }
     
     // フラッシュの設定
@@ -220,10 +192,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             print("UIImageの生成失敗")
             return
         }
-        
         capturedImage = image
         print("\(capturedImage?.size)")
-        
         // アルバムに保存
         // UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
         
@@ -242,16 +212,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         guard let editViewController = self.storyboard?.instantiateViewController(withIdentifier: "editPage") as? EditViewController else {
             return
         }
-        
-        // 撮影された画像
-        editViewController.image = capturedImage
-        // トランジションのスタイル
-        editViewController.modalTransitionStyle = .crossDissolve
-        
-        // プレビュー画像を設定
-        present(editViewController, animated: true, completion: nil)
+        editViewController.image = capturedImage // 撮影された画像
+        editViewController.modalTransitionStyle = .crossDissolve // トランジションのスタイル
+        present(editViewController, animated: true, completion: nil) // プレビュー画像を設定
     }
     
+    // フラッシュモード
     enum CurrentFlashMode {
         case auto
         case on

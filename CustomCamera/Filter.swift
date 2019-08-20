@@ -8,19 +8,16 @@ extension EditViewController {
         clampFilter?.setValue(input, forKey: kCIInputImageKey)
         clampFilter?.setValue(inputMin, forKey: "inputMinComponents")
         clampFilter?.setValue(inputMax, forKey: "inputMaxComponents")
-        
         // CIIImage取得
         guard let ciClamp = clampFilter?.outputImage else {
             return UIImage(ciImage: input)
         }
-        
         // CGImage生成
         guard let cgClamp = ciContext?.createCGImage(ciClamp, from: ciClamp.extent) else {
             return UIImage(ciImage: input)
         }
         // UIImage生成
         let uiClamp = UIImage(cgImage: cgClamp, scale: 0, orientation: orientation!)
-        
         return uiClamp
     }
     
@@ -30,24 +27,16 @@ extension EditViewController {
         bloomFilter.setValue(input, forKey: kCIInputImageKey)
         bloomFilter.setValue(intensity, forKey: kCIInputIntensityKey)
         bloomFilter.setValue(radius, forKey: kCIInputRadiusKey)
-        
         // CIImage取得
         guard let ciBloom = bloomFilter.outputImage else {
             return UIImage(ciImage: input)
         }
-        // print("input : \(input.extent.size)")
-        // print("ciBloom before : \(ciBloom.extent.size)")
-        // let aspectRatio = Double(input.extent.size.width) / Double(input.extent.size.height)
-        // let resizedImage = scaleFilter(ciBloom, aspectRatio: aspectRatio, scale: 1.0)
-        // print("ciBloom after : \(resizedImage.extent.size)")
-        
         // CGImage取得
         guard let cgBloom = ciContext?.createCGImage(ciBloom, from: ciBloom.extent) else {
             return UIImage(ciImage: input)
         }
         // UIImage生成
         let uiBloom = UIImage(cgImage: cgBloom, scale: 0, orientation: orientation!)
-        
         return uiBloom
     }
     
@@ -57,13 +46,11 @@ extension EditViewController {
         crystaFilter?.setValue(input, forKey: kCIInputImageKey)
         crystaFilter?.setValue(radius, forKey: kCIInputRadiusKey)
         crystaFilter?.setValue(center, forKey: kCIInputCenterKey)
-        
         // CIIImage取得
         guard let ciCrystal = crystaFilter?.outputImage else {
             return UIImage(ciImage: input)
         }
         print("ciBloom : \(ciCrystal.extent.size)")
-        
         // CGImage生成
         guard let cgCrystal = ciContext?.createCGImage(ciCrystal, from: ciCrystal.extent) else {
             return UIImage(ciImage: input)
@@ -84,7 +71,6 @@ extension EditViewController {
         
         // UIImage生成
         let uiCrystal = UIImage(cgImage: cropImage, scale: 0, orientation: orientation!)
-        
         return uiCrystal
     }
     

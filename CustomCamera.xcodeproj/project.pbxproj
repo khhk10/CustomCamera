@@ -19,6 +19,7 @@
 		557C982822BE0D4700F43905 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 557C982622BE0D4700F43905 /* LaunchScreen.storyboard */; };
 		557C983022C0223000F43905 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557C982F22C0223000F43905 /* EditViewController.swift */; };
 		557C983222C02A3F00F43905 /* photo3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 557C983122C02A3F00F43905 /* photo3.jpg */; };
+		55B2F3D722F7B6B60007D246 /* mountain.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 55B2F3D622F7B6B60007D246 /* mountain.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		557C982922BE0D4700F43905 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		557C982F22C0223000F43905 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		557C983122C02A3F00F43905 /* photo3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = photo3.jpg; sourceTree = "<group>"; };
+		55B2F3D622F7B6B60007D246 /* mountain.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mountain.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55448366230BA868006A9169 /* unused */ = {
+			isa = PBXGroup;
+			children = (
+				551E205A22CC21800027B58C /* ContainerViewController.swift */,
+			);
+			path = unused;
+			sourceTree = "<group>";
+		};
 		557C981122BE0D4500F43905 = {
 			isa = PBXGroup;
 			children = (
@@ -75,7 +85,8 @@
 				551E205C22CDE81A0027B58C /* EditerList.swift */,
 				551E205E22CDEF170027B58C /* FilterList.swift */,
 				551E205822CB6E910027B58C /* Filter.swift */,
-				551E205A22CC21800027B58C /* ContainerViewController.swift */,
+				55448366230BA868006A9169 /* unused */,
+				55B2F3D622F7B6B60007D246 /* mountain.jpg */,
 				557C983122C02A3F00F43905 /* photo3.jpg */,
 				557C982122BE0D4500F43905 /* Main.storyboard */,
 				557C982422BE0D4700F43905 /* Assets.xcassets */,
@@ -144,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				557C982822BE0D4700F43905 /* LaunchScreen.storyboard in Resources */,
+				55B2F3D722F7B6B60007D246 /* mountain.jpg in Resources */,
 				557C982522BE0D4700F43905 /* Assets.xcassets in Resources */,
 				557C983222C02A3F00F43905 /* photo3.jpg in Resources */,
 				557C982322BE0D4500F43905 /* Main.storyboard in Resources */,
