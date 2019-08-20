@@ -1,7 +1,9 @@
 # CustomCamera
 Customized camera using AVFoundation and CIFilter
 
-<img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_camera.jpg" width="230"><img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_edit.jpg" width="230">
+<img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_camera.jpg" height="500">  <img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_edit_2.png" height="500">
+
+<!--<img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_camera.jpg" width="230"><img src="https://github.com/khhk10/CustomCamera/blob/master/images/CustomCamera_edit.jpg" width="230">-->
 
 ### ViewController
 - Camera (AVFoundation)
